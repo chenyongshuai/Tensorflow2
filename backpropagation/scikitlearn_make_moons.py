@@ -3,14 +3,19 @@ from sklearn.datasets import *
 from sklearn.model_selection import *
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
-N_SAMPLES = 2000  # 采样点数
-TEST_SIZE = 0.3  # 测试数量比率
-# 利用工具函数直接生成数据集
-X, y = make_moons(n_samples=N_SAMPLES, noise=0.2, random_state=100)
-# 将 2000 个点按着 7:3 分割为训练集和测试集
-X_train, X_test, y_train, y_test =train_test_split(X, y,test_size=TEST_SIZE, random_state=42)
-print(X.shape, y.shape)
+def make_points():
+    N_SAMPLES = 2000  # 采样点数
+    TEST_SIZE = 0.3  # 测试数量比率
+    # 利用工具函数直接生成数据集
+    X, y = make_moons(n_samples=N_SAMPLES, noise=0.2, random_state=100)
+    # 将 2000 个点按着 7:3 分割为训练集和测试集
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_SIZE, random_state=42)
+    y_train = np.array(y_train).reshape((1400,1))
+    y_test = np.array(y_test).reshape((600, 1))
+    return X_train,X_test,y_train,y_test
+
 
 # 绘制数据集的分布，X 为 2D 坐标，y 为数据点的标签
 def make_plot(X, y, plot_name, file_name=None, XX=None, YY=None, preds=None, dark=False):
@@ -35,4 +40,4 @@ def make_plot(X, y, plot_name, file_name=None, XX=None, YY=None, preds=None, dar
 
 
 # 调用 make_plot 函数绘制数据的分布，其中 X 为 2D 坐标，y 为标签
-make_plot(X, y, "Classification Dataset Visualization ")
+#make_plot(X, y, "Classification Dataset Visualization ")
