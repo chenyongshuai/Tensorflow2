@@ -7,13 +7,13 @@ import numpy as np
 
 def make_points():
     N_SAMPLES = 2000  # 采样点数
-    TEST_SIZE = 0.3  # 测试数量比率
+    TEST_SIZE = 0.05  # 测试数量比率
     # 利用工具函数直接生成数据集
     X, y = make_moons(n_samples=N_SAMPLES, noise=0.2, random_state=100)
     # 将 2000 个点按着 7:3 分割为训练集和测试集
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_SIZE, random_state=42)
-    y_train = np.array(y_train).reshape((1400,1))
-    y_test = np.array(y_test).reshape((600, 1))
+    y_train = np.array(y_train).reshape((len(y_train),1))
+    y_test = np.array(y_test).reshape((len(y_test), 1))
     return X_train,X_test,y_train,y_test
 
 

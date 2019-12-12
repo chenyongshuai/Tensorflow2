@@ -14,4 +14,6 @@ nn.add_layer(Layer(25, 2, 'sigmoid')) # 输出层, 25=>2
 
 X_train,X_test,y_train,y_test = make_points()
 
-nn.train(X_train,X_test,y_train,y_test,0.001,1000)
+output_lable,loss,acc = nn.train(X_train,X_test,y_train,y_test,0.001,1000)
+
+nn.decisionboundary(X_test,output_lable,y_test.reshape(len(y_test),),[-1.5, 2.5, -1, 1.5])
