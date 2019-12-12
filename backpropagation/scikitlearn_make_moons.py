@@ -7,7 +7,7 @@ import numpy as np
 
 def make_points():
     N_SAMPLES = 2000  # 采样点数
-    TEST_SIZE = 0.05  # 测试数量比率
+    TEST_SIZE = 0.3  # 测试数量比率
     # 利用工具函数直接生成数据集
     X, y = make_moons(n_samples=N_SAMPLES, noise=0.2, random_state=100)
     # 将 2000 个点按着 7:3 分割为训练集和测试集
