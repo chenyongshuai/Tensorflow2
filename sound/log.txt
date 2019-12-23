@@ -1,3 +1,11 @@
-Sun, 22 Dec 2019 23:36:37 +0000 - root - <module> - INFO - 源文件名：D:/python/workspaces/Tensorflow2.0/sound/enen.m4a
-Sun, 22 Dec 2019 23:36:37 +0000 - root - transformWave - INFO - 源文件名：D:/python/workspaces/Tensorflow2.0/sound/enen.m4a
-Sun, 22 Dec 2019 23:36:37 +0000 - root - transformWave - INFO - WAVE文件名：D:/python/workspaces/Tensorflow2.0/sound/enen.wav
+Mon, 23 Dec 2019 22:43:27 - SoundHandle.py - readWaveFile - 32 - INFO - WAVE文件名：D:/python/workspaces/Tensorflow2.0/sound/enen.wav
+Mon, 23 Dec 2019 22:43:27 - SoundHandle.py - readWaveFile - 35 - INFO - sum_sample：191424
+Mon, 23 Dec 2019 22:43:27 - SoundHandle.py - readWaveFile - 37 - INFO - sample_frequency：48000; audio_sequence：[ -3  -8 -15 ...   4   5   6]
+Mon, 23 Dec 2019 22:44:03 - SoundHandle.py - readWaveFile - 32 - INFO - WAVE文件名：D:/python/workspaces/Tensorflow2.0/sound/enen.wav
+Mon, 23 Dec 2019 22:44:03 - SoundHandle.py - readWaveFile - 35 - INFO - sum_sample：191424
+Mon, 23 Dec 2019 22:44:03 - SoundHandle.py - readWaveFile - 37 - INFO - sample_frequency：48000
+Mon, 23 Dec 2019 22:44:03 - SoundHandle.py - readWaveFile - 38 - INFO - audio_sequence：[ -3  -8 -15 ...   4   5   6]
+Mon, 23 Dec 2019 22:46:39 - SoundHandle.py - readWaveFile - 34 - INFO - WAVE文件名：D:/python/workspaces/Tensorflow2.0/sound/enen.wav
+Mon, 23 Dec 2019 22:46:39 - SoundHandle.py - readWaveFile - 37 - INFO - sum_sample：191424
+Mon, 23 Dec 2019 22:46:39 - SoundHandle.py - readWaveFile - 39 - INFO - sample_frequency：48000
+Mon, 23 Dec 2019 22:46:39 - SoundHandle.py - readWaveFile - 40 - INFO - audio_sequence：[ -3  -8 -15 ...   4   5   6]
