@@ -14,15 +14,28 @@ class SoundHandle:
         :param path:其他文件格式路径
         :return: wavepath  wav文件路径
         """
-        wavepath = os.path.splitext(path)[0]+".wav"
-        logging.info("源文件名："+path)
-        logging.info("WAVE文件名：" + wavepath)
-        os.system("D:/Toolsdownload/ffmpeg/ffmpeg-20191219-99f505d-win64-static/bin/ffmpeg -i " + path + " " + wavepath)
-        return wavepath
-    def readWaveFile(self,path):
+        try:
+            wavepath = ""
+            if not os.path.exists(path):
+                raise FileNotFoundError
+            elif os.path.splitext(path)[1] == '.wav':
+                raise Exception("需要转换的文件已经是WAVE格式！")
+            else:
+                wavepath = os.path.splitext(path)[0] + ".wav"
+                logging.info("源文件名：" + path)
+                logging.info("WAVE文件名：" + wavepath)
+                os.system("D:/Toolsdownload/ffmpeg/ffmpeg-20191219-99f505d-win64-static/bin/ffmpeg -i " + path + " " + wavepath)
+        except Exception as e:
+            logging.error("输入的path不存在！")
+            traceback.print_exc()
+        finally:
+            return wavepath
+    def readWaveFile(self,path):#读取WaveFile
         """
         :param path:wavefile的文件路径
-        :return:
+        :return: sum_sample：总样本数
+                sample_frequency：采样频率
+                audio_sequence：数据
         """
         try:
             if not os.path.exists(path):
@@ -36,22 +49,39 @@ class SoundHandle:
             sum_sample = WAVE.getparams().nframes
             logging.info("sum_sample：%s" %sum_sample)
             sample_frequency, audio_sequence = wavfile.read(path)
-            logging.info("sample_frequency：%s" % sample_frequency)
-            logging.info("audio_sequence：%s" % audio_sequence)
+            logging.info("sample_frequency：%s - audio_sequence：%s" % (sample_frequency, audio_sequence))
             x_seq = np.arange(0, sum_sample/sample_frequency, 1/sample_frequency)
-            plt.plot(x_seq, audio_sequence, 'blue')
-            plt.xlabel("time (s)")
-            plt.show()
         except FileNotFoundError as f:
-            logging.info("输入的文件路径不存在：" + path)
+            logging.error("输入的文件路径不存在：" + path)
             traceback.print_exc()
         finally:
             return sum_sample, sample_frequency, audio_sequence
-    def preEmphasis(self,path):#预加重处理
+    def showWave(self,x,y):
         """
-        :param path:输入文件路径
+        :param x: 分成多少份
+        :param y: 每一份的值
         :return:
         """
+        try:
+            if x.shape == y.shape:
+                plt.plot(x, y, 'blue')
+                plt.xlabel("time (s)")
+                plt.show()
+            else:
+                logging.info("x.shape：%s - x.shape：%s" % (x.shape, y.shape))
+                raise Exception("输入的两个参数shape不一致！")
+        except Exception as e:
+            logging.error("x.shape：%s - x.shape：%s" % (x.shape, y.shape))
+            traceback.print_exc()
+        finally:
+            return
+    def preEmphasis(self,data):#预加重处理
+        """
+        :param data：音频文件的数据内容
+        方法：Y(n) = X(n) - a * X(n-1)  ### a = 0.9375
+        :return: data：预加重后的数据内容
+        """
+        print()
 
 
 

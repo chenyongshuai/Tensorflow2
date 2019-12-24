@@ -8,6 +8,6 @@ logging.basicConfig(level=logging.INFO,
                    datefmt='%a, %d %b %Y %H:%M:%S',
                     filename='log.txt')
 logger = logging.getLogger(__name__)
-path = "D:/python/workspaces/Tensorflow2.0/sound/enen.wav"
+path = "D:/python/workspaces/Tensorflow2.0/sound/enen.a"
 sh = SoundHandle()
-sh.readWaveFile(path)
+sh.transformWave(path)
