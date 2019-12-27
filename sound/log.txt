@@ -1,0 +1,20 @@
+Fri, 27 Dec 2019 17:03:03 - SoundHandle.py - readWaveFile - 48 - INFO - WAVE文件名：E:/python/Tensorflow2.0/sound/enen.wav
+Fri, 27 Dec 2019 17:03:03 - SoundHandle.py - readWaveFile - 52 - INFO - sum_sample：191424 - sample_frequency：48000 - audio_sequence：[ -3  -8 -15 ...   4   5   6]
+Fri, 27 Dec 2019 17:03:03 - SoundHandle.py - normalization - 92 - INFO - 标准化前的shape：(191424, 1) 数据：[[ -3]
+ [ -8]
+ [-15]
+ ...
+ [  4]
+ [  5]
+ [  6]] 
+Fri, 27 Dec 2019 17:03:03 - SoundHandle.py - normalization - 93 - INFO - 标准化后的shape：(191424,) 数据：[-0.00010468 -0.00027915 -0.00052341 ...  0.00013958  0.00017447
+  0.00020937] 
+Fri, 27 Dec 2019 17:03:03 - SoundHandle.py - preEmphasis - 102 - INFO - 预加重前的shape：(191424,) 数据：[-0.00010468 -0.00027915 -0.00052341 ...  0.00013958  0.00017447
+  0.00020937] 
+Fri, 27 Dec 2019 17:03:04 - SoundHandle.py - preEmphasis - 110 - INFO - 预加重后的shape：(191424,) 数据：[-1.04682811e-04 -1.81014027e-04 -2.61707028e-04 ...  8.72356759e-06
+  4.36178380e-05  4.57987298e-05] 
+Fri, 27 Dec 2019 17:03:04 - SoundHandle.py - doFraming - 127 - INFO - 一帧样本点个数：1200.0 , 帧移样本点数：480.0
+Fri, 27 Dec 2019 17:03:04 - SoundHandle.py - doFraming - 134 - INFO - 总帧数：398 
+Fri, 27 Dec 2019 17:03:04 - SoundHandle.py - doFraming - 136 - INFO - 所有帧加起来总的铺平后的长度：191760 
+Fri, 27 Dec 2019 17:03:04 - SoundHandle.py - doFraming - 138 - INFO - 填补长度：336 
+Fri, 27 Dec 2019 17:03:04 - SoundHandle.py - doFraming - 140 - INFO - 填补前的信号长度：(191424,) - 填补后的信号长度：(191760,) 
