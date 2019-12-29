@@ -23,11 +23,11 @@ class SoundHandle:
                 raise Exception("需要转换的文件已经是WAVE格式！")
             else:
                 wavepath = os.path.splitext(path)[0] + ".wav"
-                logging.info("源文件名：" + path)
-                logging.info("WAVE文件名：" + wavepath)
+                logger.info("源文件名：" + path)
+                logger.info("WAVE文件名：" + wavepath)
                 os.system("D:/Toolsdownload/ffmpeg/ffmpeg-20191219-99f505d-win64-static/bin/ffmpeg -i " + path + " " + wavepath)
         except Exception as e:
-            logging.error("输入的path不存在！")
+            logger.error("输入的path不存在！")
             traceback.print_exc()
         finally:
             return wavepath
@@ -42,17 +42,17 @@ class SoundHandle:
             if not os.path.exists(path):
                 raise FileNotFoundError
             elif os.path.splitext(path)[1] != '.wav':
-                logging.info("源文件名：" + path)
+                logger.info("源文件名：" + path)
                 path = self.transformWave(path)
             else:
-                logging.info("WAVE文件名：" + path)
+                logger.info("WAVE文件名：" + path)
             WAVE = we.open(path)
             sum_sample = WAVE.getparams().nframes
             sample_frequency, audio_sequence = wavfile.read(path)
-            logging.info("sum_sample：%s - sample_frequency：%s - audio_sequence：%s" % (sum_sample,sample_frequency, audio_sequence))
+            logger.info("sum_sample：%s - sample_frequency：%s - audio_sequence：%s" % (sum_sample,sample_frequency, audio_sequence))
             #x_seq = np.arange(0, sum_sample/sample_frequency, 1/sample_frequency)
         except FileNotFoundError as f:
-            logging.error("输入的文件路径不存在：" + path)
+            logger.error("输入的文件路径不存在：" + path)
             traceback.print_exc()
         finally:
             return sum_sample, sample_frequency, audio_sequence
@@ -68,10 +68,10 @@ class SoundHandle:
                 plt.xlabel("time (s)")
                 plt.show()
             else:
-                logging.info("x.shape：%s - x.shape：%s" % (x.shape, y.shape))
+                logger.info("x.shape：%s - x.shape：%s" % (x.shape, y.shape))
                 raise Exception("输入的两个参数shape不一致！")
         except Exception as e:
-            logging.error("x.shape：%s - x.shape：%s" % (x.shape, y.shape))
+            logger.error("x.shape：%s - x.shape：%s" % (x.shape, y.shape))
             traceback.print_exc()
         finally:
             return
@@ -122,8 +122,8 @@ class SoundHandle:
         try:
             self.one_frame_time = one_frame_time if one_frame_time is not None else 25.
             self.overlap_time = overlap_time if overlap_time is not None else 10.
-            one_frame_num = self.one_frame_time / ( 1. / float(frequency) *1000 )
-            overlap_num = self.overlap_time / ( 1. / float(frequency) *1000 )
+            one_frame_num = int(self.one_frame_time / ( 1. / float(frequency) *1000 ))
+            overlap_num = int(self.overlap_time / ( 1. / float(frequency) *1000 ))
             logger.info("一帧样本点个数：%s , 帧移样本点数：%s" %(one_frame_num,overlap_num))
             frame_array = []
             num_frame=0
@@ -138,8 +138,14 @@ class SoundHandle:
             logger.info("填补长度：%s " % (zeros.shape))
             pad_data = np.concatenate((data, zeros))
             logger.info("填补前的信号长度：%s - 填补后的信号长度：%s " % (data.shape,pad_data.shape))
+            indices = np.tile(np.arange(0, one_frame_num), (num_frame, 1)) + np.tile(np.arange(0, num_frame * overlap_num, overlap_num), (one_frame_num, 1)).T
+            logger.info("矩阵1：%s" %indices)
+            indices = np.array(indices, dtype=np.int32)
+            logger.info("矩阵2：%s" % indices)
+            frames = pad_data[indices]
+            logger.info("矩阵3：%s" % frames)
         except Exception as e:
-            print(e)
+            traceback.print_exc()
         finally:
             print()
 
