@@ -7,6 +7,7 @@ from scipy.io import wavfile
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
+import scipy.signal as signal
 
 logger = logging.getLogger('__name__.SoundHandle')
 class SoundHandle:
@@ -122,32 +123,48 @@ class SoundHandle:
         try:
             self.one_frame_time = one_frame_time if one_frame_time is not None else 25.
             self.overlap_time = overlap_time if overlap_time is not None else 10.
-            one_frame_num = int(self.one_frame_time / ( 1. / float(frequency) *1000 ))
-            overlap_num = int(self.overlap_time / ( 1. / float(frequency) *1000 ))
-            logger.info("一帧样本点个数：%s , 帧移样本点数：%s" %(one_frame_num,overlap_num))
+            winLength = int(self.one_frame_time / ( 1. / float(frequency) *1000 ))
+            overlapNum = int(self.overlap_time / ( 1. / float(frequency) *1000 ))
+            logger.info("一帧样本点个数：%s , 帧移样本点数：%s" %(winLength,overlapNum))
             frame_array = []
-            num_frame=0
-            if len(data) <= one_frame_num:
-                num_frame=1
+            numFrame=0
+            if len(data) <= winLength:
+                numFrame=1
             else:
-                num_frame = int(np.ceil((1.0 * len(data) - one_frame_num + overlap_num ) / overlap_num))
-            logger.info("总帧数：%s " % (num_frame))
-            pad_length = int((num_frame - 1) * overlap_num + one_frame_num)
+                numFrame = int(np.ceil((1.0 * len(data) - winLength + overlapNum ) / overlapNum))
+            logger.info("总帧数：%s " % (numFrame))
+            pad_length = int((numFrame - 1) * overlapNum + winLength)
             logger.info("所有帧加起来总的铺平后的长度：%s " % (pad_length))
             zeros = np.zeros((pad_length - len(data),))
             logger.info("填补长度：%s " % (zeros.shape))
             pad_data = np.concatenate((data, zeros))
             logger.info("填补前的信号长度：%s - 填补后的信号长度：%s " % (data.shape,pad_data.shape))
-            indices = np.tile(np.arange(0, one_frame_num), (num_frame, 1)) + np.tile(np.arange(0, num_frame * overlap_num, overlap_num), (one_frame_num, 1)).T
-            logger.info("矩阵1：%s" %indices)
+            indices = np.tile(np.arange(0, winLength), (numFrame, 1)) + np.tile(np.arange(0, numFrame * overlapNum, overlapNum), (winLength, 1)).T
             indices = np.array(indices, dtype=np.int32)
-            logger.info("矩阵2：%s" % indices)
-            frames = pad_data[indices]
-            logger.info("矩阵3：%s" % frames)
+            frames = np.array(pad_data[indices])
+            logger.info("分帧后的信号数据为：%s ,%s" % (frames.shape,frames))
         except Exception as e:
             traceback.print_exc()
         finally:
-            print()
+            return winLength,overlapNum,numFrame,frames
+    def addWindow(self,frames,winFunc,winLength,numFrame):
+        """
+        :param frames: 分帧后的音频数据
+        :param windowFunc:窗函数
+        :return:
+        """
+        if winFunc == 'hamming':
+            func = signal.hamming(winLength)
+            logger.info("func：%s" % func)
+            win = np.tile(func, (numFrame, 1))
+            logger.info("win：%s" % win)
+            frames = frames*win
+            logger.info("frames：%s" % frames)
+        return frames
+
+
+
+
 
 
 
