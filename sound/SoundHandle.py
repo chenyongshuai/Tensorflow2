@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
 import scipy.signal as signal
+from scipy.fftpack import fft,ifft
 
 logger = logging.getLogger('__name__.SoundHandle')
 class SoundHandle:
@@ -155,14 +156,23 @@ class SoundHandle:
         """
         if winFunc == 'hamming':
             func = signal.hamming(winLength)
-            logger.info("func：%s" % func)
+            #logger.info("func：%s" % func)
             win = np.tile(func, (numFrame, 1))
-            logger.info("win：%s" % win)
+            #logger.info("win：%s" % win)
             frames = frames*win
-            logger.info("frames：%s" % frames)
+            logger.info("加窗-frames：%s ,%s" % (frames.shape,frames))
         return frames
-
-
+    def doFFT(self,frames):
+        """
+        :param frames:加窗后的语音信号
+        :return:
+        """
+        print(frames.shape[1])
+        frames = abs(fft(frames))/(frames.shape[1]/2)
+        logger.info("取模-frames：%s ,%s" % (frames.shape, frames))
+        frames = frames[:,0:600]
+        logger.info("FFT-frames：%s ,%s" % (frames.shape,frames))
+        return frames
 
 
 

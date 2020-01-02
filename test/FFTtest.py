@@ -6,14 +6,17 @@ import seaborn
 
 
 #采样点选择1400个，因为设置的信号频率分量最高为600Hz，根据采样定理知采样频率要大于信号频率2倍，所以这里设置采样频率为1400Hz（即一秒内有1400个采样点）
-x=np.linspace(0,1,1400)
+x=np.linspace(0,1,100)
 
 #设置需要采样的信号，频率分量有180，390和600
-y=2*np.sin(2*np.pi*200*x) + 4*np.sin(2*np.pi*400*x)+ 6*np.sin(2*np.pi*600*x)
+#y=2*np.sin(2*np.pi*200*x) + 4*np.sin(2*np.pi*400*x)+ 6*np.sin(2*np.pi*600*x)
+y=2*np.sin(2*np.pi*10*x) + 3.5*np.sin(2*np.pi*20*x)
 
 yy=fft(y)                     #快速傅里叶变换
 yreal = yy.real               # 获取实数部分
 yimag = yy.imag               # 获取虚数部分
+
+print(yreal,yimag)
 
 yf=abs(fft(y))                # 取模
 yf1=abs(fft(y))/((len(x)/2))           #归一化处理
